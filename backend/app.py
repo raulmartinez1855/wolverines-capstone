@@ -11,7 +11,9 @@ app.config["CORS_HEADERS"] = "Content-Type"
 @app.route("/", methods=["GET", "POST"])
 @cross_origin()
 def index():
-    data = json.loads(request.data)
-    print(data)
-    clf = DummyClassifier()
-    return data
+    if request.method == "GET":
+        return json.dumps({"status": "success"})
+    if request.method == "POST":
+        data = json.loads(request.data)
+        clf = DummyClassifier()
+        return data

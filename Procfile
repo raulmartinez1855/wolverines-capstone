@@ -1,2 +1,2 @@
-web: gunicorn --pythonpath backend/app app:app
+web: gunicorn --chdir ./backend app:app
 

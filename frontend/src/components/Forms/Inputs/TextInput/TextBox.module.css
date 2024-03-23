@@ -1,0 +1,49 @@
+.field {
+  @apply relative mx-auto w-full;
+}
+
+.field > input {
+  @apply text-[1.4rem] leading-[1.6rem] h-[4.8rem] w-full text-white rounded-[3.2rem] border border-white border-opacity-25 px-[1.6rem] pt-[1.6rem] bg-transparent focus:border-opacity-100 focus:outline-none transition-all ease-in;
+}
+
+.field > input:autofill,
+.field > input:autofill:hover,
+.field > input:autofill:focus,
+.field > input:-webkit-autofill,
+.field > input:-webkit-autofill:hover,
+.field > input:-webkit-autofill:focus {
+  border: 1px solid white;
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px #141414 inset;
+  background-color: #141414;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.field.error > input {
+  @apply border-[#F04747] bg-[rgba(240,71,71,0.10)];
+}
+.field.error > label {
+  @apply text-[#F04747];
+}
+
+.field > label {
+  @apply uppercase left-0 pl-[1.6rem] z-[0] origin-[0%] text-white text-[1rem] absolute top-1/2 -translate-y-1/2 pointer-events-none transition-all ease-in;
+}
+
+.field:focus-within > input {
+  @apply border-opacity-100 outline-none;
+}
+
+.field:focus-within > label,
+.field > input:not(:placeholder-shown) + label {
+  @apply translate-y-[-2rem];
+}
+
+.field > input:autofill + label,
+.field > input:autofill:hover + label,
+.field > input:autofill:focus + label,
+.field > input:-webkit-autofill + label,
+.field > input:-webkit-autofill:hover + label,
+.field > input:-webkit-autofill:focus + label {
+  @apply z-[0];
+}

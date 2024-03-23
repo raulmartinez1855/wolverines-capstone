@@ -1,14 +1,12 @@
-import { Inter } from "next/font/google";
-const inter = Inter({ subsets: ["latin"] });
-//
+import { Layout } from "@/components/Layout/Layout";
 import TestForm from "@/components/Forms/TestForm";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <main
-      className={`flex bg-[#141414] min-h-screen flex-col items-center justify-center ${inter.className}`}
-    >
-      <TestForm />
-    </main>
+    <Layout>
+      <div className="flex justify-center">
+        <TestForm />
+      </div>
+    </Layout>
   );
 }

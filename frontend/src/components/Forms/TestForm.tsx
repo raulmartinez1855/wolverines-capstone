@@ -3,13 +3,37 @@ import { Field, Form, Formik, FormikHelpers, FormikValues } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import { useState } from "react";
+import SelectDropDown from "./SelectDropDown";
 
 const initialTestFormValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
+  catches: null,
+  touchDowns: null,
+  playerName: "",
 };
 
+const selectOpts = [
+  "Darrius Clemons",
+  "Mike Sainristil",
+  "Amorion Walker",
+  "Roman Wilson",
+  "Blake Corum",
+  "Will Johnson",
+  "Fredrick Moore",
+  "Keon Sabb",
+  "Jayden Denegal",
+  "Micah Pollard",
+  "Karmello English",
+  "Josaiah Stewart",
+  "Brandyn Hillman",
+  "Cornelius Johnson",
+  "Donovan Edwards",
+  "Makari Paige",
+  "Derrick Moore",
+  "Tyler Morris",
+  "J.J. McCarthy",
+  "Rod Moore",
+  "Zeke Berry",
+].map((v) => ({ label: v, value: v }));
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_SERVER as string;
 
 export default function TestForm() {
@@ -19,9 +43,9 @@ export default function TestForm() {
       <Formik
         initialValues={initialTestFormValues}
         validationSchema={yup.object({
-          firstName: yup.string().required("Legal First Name is required"),
-          lastName: yup.string().required("Legal Last Name is required"),
-          email: yup.string().required("Email is required"),
+          catches: yup.number().required("Number of Catches is required"),
+          touchDowns: yup.number().required("Number of Touchdowns is required"),
+          playerName: yup.string().required("Player Name is required"),
         })}
         onSubmit={async function (
           values: FormikValues,
@@ -36,25 +60,26 @@ export default function TestForm() {
       >
         <Form className="flex flex-col gap-[1.6rem] w-[30rem]">
           <h2 className="text-2xl text-white">TEST FORM SUBMISSION</h2>
+
           <Field
-            id="firstName"
-            name="firstName"
-            labelCopy="First Name"
+            name="playerName"
+            labelCopy="Select Player"
+            options={selectOpts}
+            component={SelectDropDown}
+          />
+          <Field
+            id="catches"
+            name="catches"
+            labelCopy="Catches"
+            type="number"
             component={TextInput}
           />
 
           <Field
-            id="lastName"
-            name="lastName"
-            labelCopy="Last Name"
-            component={TextInput}
-          />
-
-          <Field
-            id="email"
-            name="email"
-            type="email"
-            labelCopy="Email"
+            id="touchDowns"
+            name="touchDowns"
+            labelCopy="Touch Downs"
+            type="number"
             component={TextInput}
           />
 

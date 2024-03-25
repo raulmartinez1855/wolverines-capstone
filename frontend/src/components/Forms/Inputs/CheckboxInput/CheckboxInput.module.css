@@ -1,0 +1,37 @@
+.checkbox_wrapper {
+  @apply flex h-3.2 items-start gap-0.8;
+}
+
+.checkbox_wrapper.error .checkbox_label {
+  @apply border-opacity-100 border-[#F04747];
+}
+
+.checkbox {
+  @apply absolute opacity-0;
+}
+
+.checkbox_label::after {
+  content: ' ';
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background: white;
+  transform: scale(0);
+  transition: transform 400ms;
+}
+
+.checkbox_wrapper .checkbox:checked + .checkbox_label::after {
+  transform: scale(0.5);
+}
+
+.checkbox_copy {
+  @apply text-white text-[1.4rem] leading-[1.6rem] flex items-center
+}
+
+.checkbox_label {
+  @apply flex-shrink-0 relative border border-white rounded-full border-opacity-25 h-1.6 w-1.6 flex justify-center items-center transition-all duration-300;
+}
+
+.error_copy {
+  @apply absolute text-[#F04747] bottom-0 text-[1.4rem] leading-[1.6rem] left-2.4;
+}

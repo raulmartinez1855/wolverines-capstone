@@ -9,7 +9,7 @@ export function NavBar() {
         Wolverines Capstone
       </Link>
       <div className="flex gap-[1.6rem]">
-        <Link className={linkStyle} href={"/"}>
+        <Link className={linkStyle} href={"/player"}>
           Player Model
         </Link>
         <Link className={linkStyle} href={"/manual"}>
@@ -17,9 +17,6 @@ export function NavBar() {
         </Link>
         <Link className={linkStyle} href={"/team"}>
           Team
-        </Link>
-        <Link className={linkStyle} href={"/whitepaper"}>
-          White Paper
         </Link>
       </div>
     </nav>

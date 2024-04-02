@@ -1,11 +1,11 @@
+import ManualSubmissionForm from "@/components/Forms/ManualSubmissionForm";
 import { Layout } from "@/components/Layout/Layout";
-import PlayerDropDownForm from "@/components/Forms/PlayerDropDownForm";
 
 export default function HomePage() {
   return (
     <Layout>
       <div className="flex justify-center">
-        <PlayerDropDownForm />
+        <ManualSubmissionForm />
       </div>
     </Layout>
   );

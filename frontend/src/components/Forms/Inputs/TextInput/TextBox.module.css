@@ -19,6 +19,18 @@
   transition: background-color 5000s ease-in-out 0s;
 }
 
+/* Chrome, Safari, Edge, Opera */
+.field > input::-webkit-outer-spin-button,
+.field > input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.field > input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .field.error > input {
   @apply border-[#F04747] bg-[rgba(240,71,71,0.10)];
 }

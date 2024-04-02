@@ -9,6 +9,12 @@ export function NavBar() {
         Wolverines Capstone
       </Link>
       <div className="flex gap-[1.6rem]">
+        <Link className={linkStyle} href={"/"}>
+          Player Model
+        </Link>
+        <Link className={linkStyle} href={"/manual"}>
+          Manual Model
+        </Link>
         <Link className={linkStyle} href={"/team"}>
           Team
         </Link>

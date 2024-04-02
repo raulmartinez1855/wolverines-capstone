@@ -51,7 +51,7 @@ export default function FormStateWrapper({
         formikHelpers.resetForm();
       }}
     >
-      <Form className="flex flex-col gap-[1.6rem] w-[30rem]">
+      <Form className="flex flex-col gap-[1.6rem]  max-w-[50rem]">
         {children}
         <button
           className="flex justify-center items-center py-[1.6rem] px-[2.4rem] rounded-[3.2rem] bg-white "

@@ -18,6 +18,13 @@ export default function ManualSubmissionForm() {
       })}
     >
       <>
+        <h2 className="text-4xl text-white">
+          Transfer Portal Prediction Model - Manual
+        </h2>
+        <p className="text-xl mb-[6.4rem]">
+          Utilize this model to generate a transfer portal prediction for any
+          arbitrary player by season stats.
+        </p>
         <h2 className="text-2xl text-white">Enter Stats Manually</h2>
         <Field
           id="catches"

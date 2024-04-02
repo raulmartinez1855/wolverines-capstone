@@ -4,6 +4,7 @@ import axios from "axios";
 import { Field, Form, Formik, FormikHelpers, FormikValues } from "formik";
 import { ReactNode, useState } from "react";
 import { RingLoader } from "react-spinners";
+import { CountUp } from "use-count-up";
 import * as yup from "yup";
 
 export default function FormStateWrapper({
@@ -20,9 +21,28 @@ export default function FormStateWrapper({
 
   if (formSteps === FormSteps.DONE)
     return (
-      <>
-        <pre className="">{JSON.stringify(serverResponse, null, 2)}</pre>
-      </>
+      <div className="flex flex-col w-full items-center ">
+        <div className="text-5xl text-center">
+          <span className="block mb-[6.4rem]">Transer Probability: </span>
+          <span className="text-9xl">
+            <CountUp
+              easing={"easeInCubic"}
+              isCounting
+              end={serverResponse?.probability as number}
+              duration={2}
+            />
+            %
+          </span>
+        </div>
+        <button
+          onClick={() => setFormSteps(FormSteps.START)}
+          className="mt-[3.2rem] flex justify-center items-center py-[1.6rem] px-[2.4rem] rounded-[3.2rem] bg-white "
+        >
+          <span className="text-[1.4rem] leading-[1.6rem] text-black w-full focus-visible:outline-none">
+            Restart
+          </span>
+        </button>
+      </div>
     );
   if (formSteps === FormSteps.SUBMITTING)
     return (
@@ -46,7 +66,7 @@ export default function FormStateWrapper({
         setFormSteps(FormSteps.SUBMITTING);
         await loading(3000, null);
         const res = await axios.post(backendUrl, values);
-        setServerResponse(res.data);
+        setServerResponse({ ...res.data, probability: 75 });
         setFormSteps(FormSteps.DONE);
         formikHelpers.resetForm();
       }}

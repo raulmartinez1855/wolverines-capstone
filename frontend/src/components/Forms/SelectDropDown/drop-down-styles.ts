@@ -42,6 +42,7 @@ export const customStyles = (
     ":hover": { border: "1px solid rgba(255, 255, 255, 0.25)" },
     display: "flex",
     justifyContent: "space-between",
+    cursor: "pointer",
   }),
   valueContainer: (provided: any, props) => ({
     ...provided,
@@ -101,6 +102,7 @@ export const customStyles = (
     borderBottomRightRadius: "2rem",
     borderBottomLeftRadius: "2rem",
     overflow: "hidden",
+    cursor: "pointer",
   }),
   menuList: (provided: any) => ({
     // ...provided,

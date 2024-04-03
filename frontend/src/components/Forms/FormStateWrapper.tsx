@@ -15,7 +15,7 @@ export default function FormStateWrapper({
   validationSchema: yup.ObjectSchema<any>;
   children: ReactNode;
 }) {
-  const [serverResponse, setServerResponse] = useState();
+  const [serverResponse, setServerResponse] = useState<any>();
   const [formSteps, setFormSteps] = useState(FormSteps.START);
 
   if (formSteps === FormSteps.DONE)

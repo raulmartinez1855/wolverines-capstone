@@ -1,12 +1,9 @@
 import { FieldProps } from "formik";
-import ReactSelect, {
-  ActionMeta,
-  SingleValue,
-  StylesConfig,
-} from "react-select";
+import { useEffect, useState } from "react";
+import ReactSelect, { ActionMeta, SingleValue } from "react-select";
 import {
-  SelectDropDownProps,
   DropDownOption,
+  SelectDropDownProps,
   customStyles,
 } from "./drop-down-styles";
 
@@ -20,10 +17,12 @@ export default function SelectDropDown({
     newValue: SingleValue<DropDownOption>,
     _actionMeta: ActionMeta<DropDownOption>
   ) => setFieldValue(field.name, newValue?.value);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
-  const withError = !!errors[field.name];
+  const withError = !!errors[field.name] && !!touched[field.name];
 
-  return (
+  return mounted ? (
     <div className="relative">
       <ReactSelect
         instanceId={field.name}
@@ -31,10 +30,14 @@ export default function SelectDropDown({
         name={field.name}
         onMenuClose={() => setFieldTouched(field.name, true)}
         options={options}
-        placeholder={props.labelCopy}
+        placeholder={
+          withError ? (errors[field.name] as string) : props.labelCopy
+        }
         onChange={onChange}
         styles={customStyles(withError)}
       />
     </div>
+  ) : (
+    <></>
   );
 }

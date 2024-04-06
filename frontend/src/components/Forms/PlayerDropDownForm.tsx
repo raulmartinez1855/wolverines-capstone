@@ -5,7 +5,7 @@ import SelectDropDown from "./SelectDropDown";
 import { DropDownOption } from "./SelectDropDown/drop-down-styles";
 
 const initialPlayerDropDownFormValues = {
-  playerName: undefined,
+  playerId: undefined,
 };
 
 export default function PlayerDropDownForm({
@@ -17,7 +17,7 @@ export default function PlayerDropDownForm({
     <FormStateWrapper
       initialValues={initialPlayerDropDownFormValues}
       validationSchema={yup.object({
-        playerName: yup.string().required("Player Name is required"),
+        playerId: yup.number().required("Player Selection is required"),
       })}
     >
       <h2 className="text-4xl text-white">
@@ -29,7 +29,7 @@ export default function PlayerDropDownForm({
       </p>
       <h2 className="text-2xl text-white">Search by Player</h2>
       <Field
-        name="playerName"
+        name="playerId"
         labelCopy="Select Player"
         options={playerOptions}
         component={SelectDropDown}

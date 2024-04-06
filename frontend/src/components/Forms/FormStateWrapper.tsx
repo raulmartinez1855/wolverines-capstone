@@ -62,9 +62,11 @@ export default function FormStateWrapper({
         values: FormikValues,
         formikHelpers: FormikHelpers<FormikValues>
       ): Promise<any> {
+        console.log({ values });
         setFormSteps(FormSteps.SUBMITTING);
         await loading(3000, null);
         const res = await axios.post(backendUrl, values);
+
         setServerResponse({ ...res.data, probability: 75 });
         setFormSteps(FormSteps.DONE);
         formikHelpers.resetForm();

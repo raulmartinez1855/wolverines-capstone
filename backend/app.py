@@ -1,5 +1,5 @@
 import json
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request, jsonify
 from sklearn.dummy import DummyClassifier
 from flask_cors import CORS, cross_origin
 import pandas as pd

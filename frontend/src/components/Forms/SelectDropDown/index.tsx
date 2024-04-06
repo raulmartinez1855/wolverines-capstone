@@ -1,11 +1,34 @@
 import { FieldProps } from "formik";
 import { useEffect, useState } from "react";
-import ReactSelect, { ActionMeta, SingleValue } from "react-select";
+import ReactSelect, {
+  ActionMeta,
+  SingleValue,
+  createFilter,
+} from "react-select";
 import {
   DropDownOption,
   SelectDropDownProps,
   customStyles,
 } from "./drop-down-styles";
+import { FixedSizeList as List } from "react-window";
+
+function MenuList(props: any) {
+  const { options, children, maxHeight, getValue } = props;
+  const [value] = getValue();
+  const initialOffset = options.indexOf(value) * 49;
+
+  return (
+    <List
+      height={maxHeight}
+      width={"100%"}
+      itemCount={children.length}
+      itemSize={49}
+      initialScrollOffset={initialOffset}
+    >
+      {({ index, style }) => <div style={style}>{children[index]}</div>}
+    </List>
+  );
+}
 
 export default function SelectDropDown({
   options,
@@ -35,6 +58,8 @@ export default function SelectDropDown({
         }
         onChange={onChange}
         styles={customStyles(withError)}
+        filterOption={createFilter({ ignoreAccents: false })}
+        components={{ MenuList }}
       />
     </div>
   ) : (

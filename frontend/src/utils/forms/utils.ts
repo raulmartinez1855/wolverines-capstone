@@ -31,7 +31,7 @@ export interface DropDownFormInputFieldProps extends FormInputFieldProps {
 
 export const getDropDownFormOpts =
   async (): Promise<FormDropDownOptionValues> => {
-    const res = await axios.get(backendUrl + "/mappings");
+    const res = await axios.get(backendUrl + "mappings");
     res.data.players = res.data.players.map((v: any) => ({
       label: `${v.Player} (${v.Team})`,
       value: v.PlayerId,

@@ -132,8 +132,6 @@ const validationSchemaObj = [...freeFormFields, ...dropDownFields].reduce(
 
 const validationSchema = yup.object(validationSchemaObj);
 
-console.log(validationSchema);
-
 export default function ManualSubmissionForm() {
   return (
     <FormStateWrapper

@@ -3,6 +3,7 @@ import { Field } from "formik";
 import * as yup from "yup";
 import FormStateWrapper from "./FormStateWrapper";
 import SelectDropDown from "./SelectDropDown";
+import { DropDownFormInputFieldProps } from "@/utils/forms/utils";
 
 const freeFormFields = [
   { id: "Usage Overall", label: "Usage Overall" },
@@ -95,44 +96,29 @@ const freeFormFields = [
   { id: "Team turnovers", label: "Team Turnovers" },
 ];
 
-const dropDownFields = [
-  { id: "Season", label: "Season", options: [{ label: "2020", value: 2020 }] },
-  { id: "Stars", label: "Stars", options: [{ label: "a", value: "a" }] },
-  // { id: "PlayerId", label: "Player Name", options: [{ label: "", value: "" }] },
-  {
-    id: "PositionId",
-    label: "Position",
-    options: [{ label: "a", value: "a" }],
-  },
-  { id: "TeamId", label: "Team Name", options: [{ label: "a", value: "a" }] },
-  {
-    id: "ConferenceId",
-    label: "Conference ",
-    options: [{ label: "a", value: "a" }],
-  },
-];
-
-const initalManualSubmissionFormValues = [
-  ...freeFormFields,
-  ...dropDownFields,
-].reduce((acc: any, cv) => {
-  acc[cv.id] = undefined;
-  return acc;
-}, {});
-
-console.log(initalManualSubmissionFormValues);
-
-const validationSchemaObj = [...freeFormFields, ...dropDownFields].reduce(
-  (acc: any, cv) => {
-    acc[cv.id] = yup.number().required(`${cv.label} is required`);
+export default function ManualSubmissionForm({
+  dropDownFields,
+}: {
+  dropDownFields: DropDownFormInputFieldProps[];
+}) {
+  const initalManualSubmissionFormValues = [
+    ...freeFormFields,
+    ...dropDownFields,
+  ].reduce((acc: any, cv) => {
+    acc[cv.id] = undefined;
     return acc;
-  },
-  {}
-);
+  }, {});
 
-const validationSchema = yup.object(validationSchemaObj);
+  const validationSchemaObj = [...freeFormFields, ...dropDownFields].reduce(
+    (acc: any, cv) => {
+      acc[cv.id] = yup.number().required(`${cv.label} is required`);
+      return acc;
+    },
+    {}
+  );
 
-export default function ManualSubmissionForm() {
+  const validationSchema = yup.object(validationSchemaObj);
+
   return (
     <FormStateWrapper
       initialValues={initalManualSubmissionFormValues}

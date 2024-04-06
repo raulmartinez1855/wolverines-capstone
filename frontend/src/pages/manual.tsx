@@ -1,11 +1,45 @@
 import ManualSubmissionForm from "@/components/Forms/ManualSubmissionForm";
 import { Layout } from "@/components/Layout/Layout";
+import {
+  DropDownFormInputFieldProps,
+  getDropDownFormOpts,
+} from "@/utils/forms/utils";
 
-export default function HomePage() {
+export const getStaticProps = async () => {
+  const { conferences, positions, seasons, teams } =
+    await getDropDownFormOpts();
+
+  const dropDownFields = [
+    {
+      id: "Season",
+      label: "Season",
+      options: seasons,
+    },
+    {
+      id: "PositionId",
+      label: "Position",
+      options: positions,
+    },
+    { id: "TeamId", label: "Team Name", options: teams },
+    {
+      id: "ConferenceId",
+      label: "Conference",
+      options: conferences,
+    },
+  ];
+
+  return { props: { dropDownFields } };
+};
+
+export default function HomePage({
+  dropDownFields,
+}: {
+  dropDownFields: DropDownFormInputFieldProps[];
+}) {
   return (
     <Layout>
       <div className="flex justify-center">
-        <ManualSubmissionForm />
+        <ManualSubmissionForm dropDownFields={dropDownFields} />
       </div>
     </Layout>
   );

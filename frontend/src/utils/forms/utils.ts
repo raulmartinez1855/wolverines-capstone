@@ -20,6 +20,15 @@ export interface FormDropDownOptionValues {
   teams: DropDownOption[];
 }
 
+export interface FormInputFieldProps {
+  id: string | number;
+  label: string | number;
+}
+
+export interface DropDownFormInputFieldProps extends FormInputFieldProps {
+  options: DropDownOption[];
+}
+
 export const getDropDownFormOpts =
   async (): Promise<FormDropDownOptionValues> => {
     const res = await axios.get(backendUrl + "/mappings");
@@ -39,6 +48,7 @@ export const getDropDownFormOpts =
       label: v.Season,
       value: v.Season,
     }));
+    res.data.seasons.push({ label: 2024, value: 2024 });
     res.data.teams = res.data.teams.map((v: any) => ({
       label: v.Team,
       value: v.TeamId,

@@ -15,15 +15,19 @@ import { FixedSizeList as List } from "react-window";
 function MenuList(props: any) {
   const { options, children, maxHeight, getValue } = props;
   const [value] = getValue();
-  const initialOffset = options.indexOf(value) * 49;
+  const optHeight = 49;
+  // const initialOffset = options.indexOf(value) * optHeight;
 
   return (
     <List
-      height={maxHeight}
+      height={
+        maxHeight < optHeight * children.length
+          ? maxHeight
+          : optHeight * children.length
+      }
       width={"100%"}
       itemCount={children.length}
-      itemSize={49}
-      initialScrollOffset={initialOffset}
+      itemSize={optHeight}
     >
       {({ index, style }) => <div style={style}>{children[index]}</div>}
     </List>

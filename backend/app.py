@@ -7,7 +7,7 @@ import pandas as pd
 app = Flask(__name__)
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
-df = pd.read_csv("../Data/Final Dataset.csv")
+df = pd.read_csv("./data.csv")
 
 
 def gen_cols_json(cols):

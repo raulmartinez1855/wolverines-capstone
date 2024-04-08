@@ -1,13 +1,16 @@
 import json
-from flask import Flask, request, jsonify
-from sklearn.dummy import DummyClassifier
-from flask_cors import CORS, cross_origin
+
+import joblib
 import pandas as pd
+from flask import Flask, jsonify, request
+from flask_cors import CORS, cross_origin
+from sklearn.dummy import DummyClassifier
 
 app = Flask(__name__)
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 df = pd.read_csv("./data.csv")
+gbr_clf = joblib.load("gbr_clf.joblib")
 
 
 def gen_cols_json(cols):
@@ -21,8 +24,27 @@ def index():
         return json.dumps({"status": "success"})
     if request.method == "POST":
         data = json.loads(request.data)
-        clf = DummyClassifier()
         return data
+
+
+@app.route("/predict", methods=["GET", "POST"])
+@cross_origin()
+def gen_predictions():
+    if request.method == "GET":
+        tdf = df.copy().drop(
+            columns=["Player", "Team", "Conference", "Position", "Division"]
+        )
+        tdf = tdf.fillna(0)
+        tdf.drop(columns=["Stars", "PlayerId", "Transfer_Portal"], inplace=True)
+        input_data = tdf.iloc[0].values.reshape(1, -1)
+        prediction = gbr_clf.predict(input_data)
+        probability = gbr_clf.predict_proba(input_data)
+
+        return jsonify(
+            model="Gradient Boosting Classifier",
+            prediction=int(prediction[0]),
+            probability=[float(x) for x in probability[0]],
+        )
 
 
 @app.route("/mappings", methods=["GET"])

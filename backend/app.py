@@ -4,12 +4,22 @@ import joblib
 import pandas as pd
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
-from sklearn.dummy import DummyClassifier
 
 app = Flask(__name__)
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 df = pd.read_csv("./data.csv")
+df = df.fillna(0)
+excluded_cols = [
+    "Player",
+    "Team",
+    "Conference",
+    "Position",
+    "Division",
+    "Stars",
+    "PlayerId",
+    "Transfer_Portal",
+]
 gbr_clf = joblib.load("gbr_clf.joblib")
 
 
@@ -27,24 +37,47 @@ def index():
         return data
 
 
-@app.route("/predict", methods=["GET", "POST"])
+@app.route("/predict/player", methods=["POST"])
 @cross_origin()
-def gen_predictions():
-    if request.method == "GET":
-        tdf = df.copy().drop(
-            columns=["Player", "Team", "Conference", "Position", "Division"]
-        )
-        tdf = tdf.fillna(0)
-        tdf.drop(columns=["Stars", "PlayerId", "Transfer_Portal"], inplace=True)
-        input_data = tdf.iloc[0].values.reshape(1, -1)
-        prediction = gbr_clf.predict(input_data)
-        probability = gbr_clf.predict_proba(input_data)
+def gen_predictions_player():
+    playerId = request.json["PlayerId"]
+    df_player = df[df["PlayerId"] == playerId].drop(columns=excluded_cols)
+    model_input = df_player.mean().values.reshape(1, -1)
 
-        return jsonify(
-            model="Gradient Boosting Classifier",
-            prediction=int(prediction[0]),
-            probability=[float(x) for x in probability[0]],
-        )
+    prediction = gbr_clf.predict(model_input)
+    probability = gbr_clf.predict_proba(model_input)
+
+    res = [
+        {
+            "model": "Gradient Boosting Classifier",
+            "prediction": int(prediction[0]),
+            "probability": [float(x) for x in probability[0]],
+        }
+    ]
+
+    return jsonify(res)
+
+
+@app.route("/predict/manual", methods=["POST"])
+@cross_origin()
+def gen_predictions_manual():
+    print(request.json)
+    # playerId = request.json["playerId"]
+    # df_player = df[df["PlayerId"] == playerId].drop(columns=excluded_cols)
+    # model_input = df_player.mean().values.reshape(1, -1)
+
+    # prediction = gbr_clf.predict(model_input)
+    # probability = gbr_clf.predict_proba(model_input)
+
+    res = [
+        {
+            "model": "Gradient Boosting Classifier",
+            "prediction": int(0),
+            "probability": [0.5, 0.5],
+        }
+    ]
+
+    return jsonify(res)
 
 
 @app.route("/mappings", methods=["GET"])

@@ -1,13 +1,19 @@
 import { DropDownOption } from "@/components/Forms/SelectDropDown/drop-down-styles";
 import axios from "axios";
+import { FormikValues } from "formik";
 
 export const backendUrl = process.env.NEXT_PUBLIC_BACKEND_SERVER as string;
+const formMappingsUrl = backendUrl + "mappings";
+const playerPredictionsUrl = backendUrl + "predict/player";
+const manualPredictionsUrl = backendUrl + "predict/manual";
 
 export enum FormSteps {
   START,
   SUBMITTING,
   DONE,
 }
+
+export const predictionMap = ["Transfer Not Likely", "Transfer Likely"];
 
 export const loading = (delay: number, value: any) =>
   new Promise((resolve) => setTimeout(resolve, delay, value));
@@ -25,13 +31,19 @@ export interface FormInputFieldProps {
   label: string | number;
 }
 
+export interface ModelPrediction {
+  model: string;
+  prediction: number;
+  probability?: number[];
+}
+
 export interface DropDownFormInputFieldProps extends FormInputFieldProps {
   options: DropDownOption[];
 }
 
 export const getDropDownFormOpts =
   async (): Promise<FormDropDownOptionValues> => {
-    const res = await axios.get(backendUrl + "mappings");
+    const res = await axios.get(formMappingsUrl);
     res.data.players = res.data.players.map((v: any) => ({
       label: `${v.Player} (${v.Team})`,
       value: v.PlayerId,
@@ -56,3 +68,17 @@ export const getDropDownFormOpts =
 
     return res.data;
   };
+
+export const genPlayerPredictions = async (
+  values: FormikValues
+): Promise<ModelPrediction[]> => {
+  const res = await axios.post(playerPredictionsUrl, values);
+  return res.data;
+};
+
+export const genManualPredictions = async (
+  values: FormikValues
+): Promise<ModelPrediction[]> => {
+  const res = await axios.post(manualPredictionsUrl, values);
+  return res.data;
+};

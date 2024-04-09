@@ -20,11 +20,23 @@ excluded_cols = [
     "PlayerId",
     "Transfer_Portal",
 ]
+included_cols = [col for col in df.columns if col not in excluded_cols]
 gbr_clf = joblib.load("gbr_clf.joblib")
 
 
 def gen_cols_json(cols):
     return df[cols].drop_duplicates().to_dict(orient="records")
+
+
+def gen_model_prediction(name, model, model_input):
+    prediction = model.predict(model_input)
+    probability = model.predict_proba(model_input)
+
+    return {
+        "model": name,
+        "prediction": int(prediction[0]),
+        "probability": [float(x) for x in probability[0]],
+    }
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -41,19 +53,14 @@ def index():
 @cross_origin()
 def gen_predictions_player():
     playerId = request.json["PlayerId"]
-    df_player = df[df["PlayerId"] == playerId].drop(columns=excluded_cols)
-    model_input = df_player.mean().values.reshape(1, -1)
-
-    prediction = gbr_clf.predict(model_input)
-    probability = gbr_clf.predict_proba(model_input)
-
-    res = [
-        {
-            "model": "Gradient Boosting Classifier",
-            "prediction": int(prediction[0]),
-            "probability": [float(x) for x in probability[0]],
-        }
-    ]
+    mean_player_values = (
+        df[df["PlayerId"] == playerId].drop(columns=excluded_cols).mean().to_dict()
+    )
+    model_input = pd.DataFrame(
+        data=mean_player_values, columns=included_cols, index=[0]
+    )
+    print(model_input)
+    res = [gen_model_prediction("Gradient Boosting Classifier", gbr_clf, model_input)]
 
     return jsonify(res)
 
@@ -61,21 +68,8 @@ def gen_predictions_player():
 @app.route("/predict/manual", methods=["POST"])
 @cross_origin()
 def gen_predictions_manual():
-    print(request.json)
-    # playerId = request.json["playerId"]
-    # df_player = df[df["PlayerId"] == playerId].drop(columns=excluded_cols)
-    # model_input = df_player.mean().values.reshape(1, -1)
-
-    # prediction = gbr_clf.predict(model_input)
-    # probability = gbr_clf.predict_proba(model_input)
-
-    res = [
-        {
-            "model": "Gradient Boosting Classifier",
-            "prediction": int(0),
-            "probability": [0.5, 0.5],
-        }
-    ]
+    model_input = pd.DataFrame(data=request.json, columns=included_cols, index=[0])
+    res = [gen_model_prediction("Gradient Boosting Classifier", gbr_clf, model_input)]
 
     return jsonify(res)
 

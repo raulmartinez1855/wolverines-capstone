@@ -3,7 +3,10 @@ import { Field } from "formik";
 import * as yup from "yup";
 import FormStateWrapper from "./FormStateWrapper";
 import SelectDropDown from "./SelectDropDown";
-import { DropDownFormInputFieldProps } from "@/utils/forms/utils";
+import {
+  DropDownFormInputFieldProps,
+  genManualPredictions,
+} from "@/utils/forms/utils";
 
 const freeFormFields = [
   { id: "Usage Overall", label: "Usage Overall" },
@@ -105,7 +108,7 @@ export default function ManualSubmissionForm({
     ...freeFormFields,
     ...dropDownFields,
   ].reduce((acc: any, cv) => {
-    acc[cv.id] = undefined;
+    acc[cv.id] = "";
     return acc;
   }, {});
 
@@ -123,6 +126,7 @@ export default function ManualSubmissionForm({
     <FormStateWrapper
       initialValues={initalManualSubmissionFormValues}
       validationSchema={validationSchema}
+      submitFn={genManualPredictions}
     >
       <>
         <h2 className="text-4xl text-white">

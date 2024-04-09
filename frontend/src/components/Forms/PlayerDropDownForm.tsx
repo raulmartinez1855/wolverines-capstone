@@ -3,9 +3,10 @@ import * as yup from "yup";
 import FormStateWrapper from "./FormStateWrapper";
 import SelectDropDown from "./SelectDropDown";
 import { DropDownOption } from "./SelectDropDown/drop-down-styles";
+import { genPlayerPredictions } from "@/utils/forms/utils";
 
 const initialPlayerDropDownFormValues = {
-  playerId: undefined,
+  PlayerId: "",
 };
 
 export default function PlayerDropDownForm({
@@ -17,8 +18,9 @@ export default function PlayerDropDownForm({
     <FormStateWrapper
       initialValues={initialPlayerDropDownFormValues}
       validationSchema={yup.object({
-        playerId: yup.number().required("Player Selection is required"),
+        PlayerId: yup.number().required("Player Selection is required"),
       })}
+      submitFn={genPlayerPredictions}
     >
       <h2 className="text-4xl text-white">
         Transfer Portal Prediction Model - by Player
@@ -29,7 +31,7 @@ export default function PlayerDropDownForm({
       </p>
       <h2 className="text-2xl text-white">Search by Player</h2>
       <Field
-        name="playerId"
+        name="PlayerId"
         labelCopy="Select Player"
         options={playerOptions}
         component={SelectDropDown}

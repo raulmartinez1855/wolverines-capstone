@@ -1,27 +1,18 @@
 import json
 
-import joblib
 import pandas as pd
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 
+from helpers.dataframe import gen_df, excluded_cols
+from helpers.classifiers import gbr_clf
+
 app = Flask(__name__)
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
-df = pd.read_csv("./data.csv")
-df = df.fillna(0)
-excluded_cols = [
-    "Player",
-    "Team",
-    "Conference",
-    "Position",
-    "Division",
-    "Stars",
-    "PlayerId",
-    "Transfer_Portal",
-]
+df = gen_df()
 included_cols = [col for col in df.columns if col not in excluded_cols]
-gbr_clf = joblib.load("gbr_clf.joblib")
+
 
 
 def gen_cols_json(cols):

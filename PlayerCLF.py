@@ -1,4 +1,7 @@
 #imports
+import warnings
+warnings.filterwarnings('ignore')
+
 import pandas as pd
 import joblib
 
@@ -30,6 +33,20 @@ def improve(row, column, data):
         return 'Yes'
  
 
+def improve_o(row, column, data):
+    try: 
+        id = int(row['PlayerId'])
+        season = int(row['Season'])
+        column = column
+        imp = float(data[(data['PlayerId'] == id) & (data['Season'] == season)][column]) > float(data[(data['PlayerId'] == id) & (data['Season'] == season-1)][column])
+
+        if imp:
+            return 1 
+        return -1
+    except:
+        return 0
+ 
+
 def compare(row, column, data):
     star = int(row['Stars'])
     year = int(row['Yr'])
@@ -51,8 +68,6 @@ def compare(row, column, data):
 def get_player_proba(data):
 
     #Get player data to proper format
-    data['Stars'] = data['Stars'].fillna(0)
-    data['Yr'] = data['Yr'].fillna(0)
     data = data.drop(columns=['Transfer_Portal','PositionId', 'ConferenceId', 'TeamId'])
 
     coaching_data = pd.read_csv('Data/Coaching Data.csv', skiprows = [0,1], skipfooter = 202)
@@ -62,9 +77,10 @@ def get_player_proba(data):
     coaching_data['Season'] = coaching_data['Season'].astype('int64')
     data['Coach Change'] = data.apply(lambda x: coach_change(x, coaching_data), axis = 1)
 
-    file = pd.read_csv('Data/Player Recruit Ranking/2023.csv')
-    file.rename(columns = {'AthleteId': 'PlayerId', 'Year': 'Class of'}, inplace = True)
-    data = data.merge(file, on = 'PlayerId', how = 'left', suffixes = [None, '_' + str(2023)])
+    for i,year in enumerate(['2015','2016','2017','2018', '2019','2020', '2021', '2022', '2023']):
+        file = pd.read_csv('Data/Player Recruit Ranking/' + year + '.csv')
+        file.rename(columns = {'AthleteId': 'PlayerId', 'Year': 'Class of'}, inplace = True)
+        data = data.merge(file, on = 'PlayerId', how = 'left', suffixes = [None, '_' + str(i)])
 
     for i in range(0,9):
         data['Stars'] = data['Stars'].combine_first(data['Stars_' + str(i)])
@@ -84,7 +100,7 @@ def get_player_proba(data):
     data['Yr'] = data['Yr'].fillna(0) 
     
     #If defense
-    if data['Position'].isin(['DT', 'DE', 'DL','DB', 'CB', 'S','LB']):
+    if data['Position'].iloc[0] in ['DT', 'DE', 'DL','DB', 'CB', 'S','LB']:
 
         data['Pct_Team_INT'] = data['INT']/data['Team interceptions']
         data['Pct_Team_SACKS'] = data['SACKS']/data['Team sacks']
@@ -104,15 +120,15 @@ def get_player_proba(data):
         data['Stars'] = data['Stars'].astype('str')
 
         column_transform = joblib.load("column_transform_defense.joblib")
-        data = column_transform.transform(data).toarray()
+        data = column_transform.transform(data)
         clf = joblib.load("DefensiveCLF.joblib")
 
-        proba = clf.predict_proba(data)[1]
+        proba = round(clf.predict_proba(data)[0][1]*100, 2)
 
         return proba
     
     #If QB
-    if data['Position'] == 'QB':
+    if data['Position'].iloc[0] == 'QB':
 
         data['Pct_Team_Pass_Yds'] = data['YDS']/data['Team netPassingYards']
         data['Pct_Team_Pass_Attempts'] = data['ATT']/data['Team passAttempts']
@@ -124,7 +140,7 @@ def get_player_proba(data):
        'Usage PassingDowns','ATT', 'AVG','COMPLETIONS','INT','LONG','PCT','TD','YDS', 'YPA','Pct_Team_Pass_Yds', 'Pct_Team_Pass_Attempts', 'Pct_Team_Pass_TDs',
        'Pct_Team_Pass_Completions', 'Pct_Team_Ints']
         for feat in feats:
-            data[feat+'_improve'] = data.apply(lambda x: improve(x, feat, data), axis = 1)
+            data[feat+'_improve'] = data.apply(lambda x: improve_o(x, feat, data), axis = 1)
             data[feat + '_compare'] = data.apply(lambda x: compare(x, feat, data), axis = 1)
 
         rel_feats = ['Usage Overall', 'Usage Pass', 'Usage Rush', 'Usage FirstDown','Usage SecondDown', 'Usage ThirdDown', 'Usage StandardDowns',
@@ -151,15 +167,15 @@ def get_player_proba(data):
         data['Stars'] = data['Stars'].astype('str')
 
         column_transform = joblib.load("column_transform_qb.joblib")
-        data = column_transform.transform(data).toarray()
+        data = column_transform.transform(data)
         clf = joblib.load("qb_classifier.joblib")
 
-        proba = clf.predict_proba(data)[1]
+        proba = round(clf.predict_proba(data)[0][1]*100, 2)
 
         return proba
 
     #If RB
-    if data['Position'] == 'RB':
+    if data['Position'].iloc[0] == 'RB':
 
         data['Pct_Team_Rush_Yds'] = data['YDS']/data['Team rushingYards']
         data['Pct_Team_Rush_Attempts'] = data['CAR']/data['Team rushingAttempts']
@@ -168,7 +184,7 @@ def get_player_proba(data):
         feats = ['Usage Overall', 'Usage Rush', 'Usage Pass','Usage PassingDowns', 'Usage StandardDowns', 'Usage FirstDown', 'Usage SecondDown', 'Usage ThirdDown', 'AVG', 
          'CAR', 'YPC', 'REC', 'YPR', 'Pct_Team_Rush_Yds', 'Pct_Team_Rush_Attempts', 'Pct_Team_Rush_TDs']
         for feat in feats:
-            data[feat+'_improve'] = data.apply(lambda x: improve(x, feat, data), axis = 1)
+            data[feat+'_improve'] = data.apply(lambda x: improve_o(x, feat, data), axis = 1)
             data[feat + '_compare'] = data.apply(lambda x: compare(x, feat, data), axis = 1)
 
         rel_feats = ['Usage Overall', 'Usage Rush','Usage StandardDowns', 'Usage FirstDown', 'Usage SecondDown', 'Usage ThirdDown', 'AVG', 
@@ -184,22 +200,22 @@ def get_player_proba(data):
              'Usage ThirdDown_compare', 'AVG_compare', 'CAR_compare', 'YPC_compare',
              'REC_compare', 'YPR_compare', 'Pct_Team_Rush_Yds_compare',
              'Pct_Team_Rush_Attempts_compare', 'Pct_Team_Rush_TDs_compare',
-             'Position','Yr','Stars', 'Coach Change', 'Ranking', 'Rating', 'Transfer_Portal']
+             'Position','Yr','Stars', 'Coach Change', 'Ranking', 'Rating']
         
         data = data[rel_feats]
         data['Yr'] = data['Yr'].astype('str')
         data['Stars'] = data['Stars'].astype('str')
 
         column_transform = joblib.load("column_transform_rb.joblib")
-        data = column_transform.transform(data).toarray()
+        data = column_transform.transform(data)
         clf = joblib.load("rb_classifier.joblib")
 
-        proba = clf.predict_proba(data)[1]
+        proba = round(clf.predict_proba(data)[0][1]*100, 2)
 
         return proba
     
     #If WR or TE
-    if data['Position'].isin(['WR', 'TE']):
+    if data['Position'].iloc[0] in ['WR', 'TE']:
 
         data['Pct_Team_Pass_Yds'] = data['YDS']/data['Team netPassingYards']
         data['Pct_Team_Pass_TDs'] = data['TD']/data['Team passingTDs']
@@ -209,7 +225,7 @@ def get_player_proba(data):
        'Usage PassingDowns','REC', 'AVG','CAR','TD','YDS', 'YPR','Pct_Team_Pass_Yds',  'Pct_Team_Pass_TDs',
        'Pct_Team_Receptions']
         for feat in feats:
-            data[feat+'_improve'] = data.apply(lambda x: improve(x, feat, data), axis = 1)
+            data[feat+'_improve'] = data.apply(lambda x: improve_o(x, feat, data), axis = 1)
             data[feat + '_compare'] = data.apply(lambda x: compare(x, feat, data), axis = 1)
 
         rel_feats = ['Usage Overall', 'Usage Pass', 'Usage Rush', 'Usage FirstDown','Usage SecondDown', 'Usage ThirdDown', 'Usage StandardDowns',
@@ -227,16 +243,16 @@ def get_player_proba(data):
              'Usage StandardDowns_compare', 'Usage PassingDowns_compare',
              'REC_compare', 'AVG_compare', 'CAR_compare', 'TD_compare',
              'YDS_compare', 'YPR_compare', 'Pct_Team_Pass_Yds_compare',
-             'Pct_Team_Pass_TDs_compare', 'Pct_Team_Receptions_compare','Position','Yr','Stars', 'Coach Change', 'Ranking', 'Rating', 'Transfer_Portal']
+             'Pct_Team_Pass_TDs_compare', 'Pct_Team_Receptions_compare','Position','Yr','Stars', 'Coach Change', 'Ranking', 'Rating']
         
         data = data[rel_feats]
         data['Yr'] = data['Yr'].astype('str')
         data['Stars'] = data['Stars'].astype('str')
 
         column_transform = joblib.load("column_transform_wr_te.joblib")
-        data = column_transform.transform(data).toarray()
+        data = column_transform.transform(data)
         clf = joblib.load("wr_te_classifier.joblib")
 
-        proba = clf.predict_proba(data)[1]
+        proba = round(clf.predict_proba(data)[0][1]*100, 2)
 
         return proba

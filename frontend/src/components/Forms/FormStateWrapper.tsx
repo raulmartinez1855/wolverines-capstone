@@ -24,6 +24,8 @@ export default function FormStateWrapper({
   const [serverResponse, setServerResponse] = useState<ModelPrediction[]>([]);
   const [formSteps, setFormSteps] = useState(FormSteps.START);
 
+  console.log(serverResponse);
+
   if (formSteps === FormSteps.DONE)
     return (
       <div className="flex flex-col w-full items-center ">
@@ -37,18 +39,15 @@ export default function FormStateWrapper({
                 <div key={v.model} className="w-full">
                   <div className="mb-[2.4rem]">{v.model}</div>
 
-                  {v?.probability && (
-                    <div className="text-9xl">
-                      <CountUp
-                        easing={"easeInCubic"}
-                        isCounting
-                        end={Math.round(v?.probability?.[1] * 100 * 100) / 100}
-                        duration={2}
-                      />
-                      %{" "}
-                    </div>
-                  )}
-                  {!v.probability && <span>{predictionMap[v.prediction]}</span>}
+                  <div className="text-9xl">
+                    <CountUp
+                      easing={"easeInCubic"}
+                      isCounting
+                      end={v.probability}
+                      duration={2}
+                    />
+                    %{" "}
+                  </div>
                 </div>
               ))}
             </>
@@ -86,7 +85,7 @@ export default function FormStateWrapper({
         formikHelpers: FormikHelpers<FormikValues>
       ) => {
         setFormSteps(FormSteps.SUBMITTING);
-        await loading(3000, null);
+        // await loading(3000, null);
         const predictions = await submitFn(values);
 
         setServerResponse(predictions);

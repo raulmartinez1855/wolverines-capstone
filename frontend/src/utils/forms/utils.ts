@@ -33,8 +33,7 @@ export interface FormInputFieldProps {
 
 export interface ModelPrediction {
   model: string;
-  prediction: number;
-  probability?: number[];
+  probability: number;
 }
 
 export interface DropDownFormInputFieldProps extends FormInputFieldProps {

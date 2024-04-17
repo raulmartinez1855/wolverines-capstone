@@ -17,14 +17,6 @@ def gen_cols_json(cols):
     return df[cols].drop_duplicates().dropna().to_dict(orient="records")
 
 
-def gen_prediction_json(name, probability):
-
-    return {
-        "model": name,
-        "probability": probability,
-    }
-
-
 @app.route("/", methods=["GET", "POST"])
 @cross_origin()
 def index():

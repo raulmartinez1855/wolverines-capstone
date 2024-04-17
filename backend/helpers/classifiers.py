@@ -6,6 +6,14 @@ import joblib
 import pandas as pd
 
 
+def gen_prediction_json(name, probability):
+
+    return {
+        "model": name,
+        "probability": probability,
+    }
+
+
 def coach_change(row, data):
     team = str(row.Team)
     season = int(row.Season)
@@ -186,7 +194,7 @@ def get_player_proba(data):
         data = data.toarray()
         proba = round(clf.predict_proba(data)[0][1] * 100, 2)
 
-        return proba
+        return gen_prediction_json("Gradient Boosting Classifier", proba)
 
     # If QB
     if data["Position"].iloc[0] == "QB":
@@ -315,7 +323,7 @@ def get_player_proba(data):
 
         proba = round(clf.predict_proba(data)[0][1] * 100, 2)
 
-        return proba
+        return gen_prediction_json("Gradient Boosting Classifier", proba)
 
     # If RB
     if data["Position"].iloc[0] == "RB":
@@ -415,7 +423,7 @@ def get_player_proba(data):
 
         proba = round(clf.predict_proba(data)[0][1] * 100, 2)
 
-        return proba
+        return gen_prediction_json("Gradient Boosting Classifier", proba)
 
     # If WR or TE
     if data["Position"].iloc[0] in ["WR", "TE"]:
@@ -521,7 +529,7 @@ def get_player_proba(data):
 
         proba = round(clf.predict_proba(data)[0][1] * 100, 2)
 
-        return proba
+        return gen_prediction_json("Gradient Boosting Classifier", proba)
 
     else:
         return "Special teams and O-line not included"

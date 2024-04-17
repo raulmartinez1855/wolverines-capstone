@@ -31,7 +31,7 @@ def improve(row, column, data):
         return 'No'
     except:
         return 'Yes'
- 
+    
 
 def improve_o(row, column, data):
     try: 
@@ -122,7 +122,7 @@ def get_player_proba(data):
         column_transform = joblib.load("column_transform_defense.joblib")
         data = column_transform.transform(data)
         clf = joblib.load("DefensiveCLF.joblib")
-
+        data = data.toarray()
         proba = round(clf.predict_proba(data)[0][1]*100, 2)
 
         return proba
@@ -256,3 +256,6 @@ def get_player_proba(data):
         proba = round(clf.predict_proba(data)[0][1]*100, 2)
 
         return proba
+    
+    else:
+        return('Special teams and O-line not included')

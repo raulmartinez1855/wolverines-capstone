@@ -2,4 +2,9 @@ import pandas as pd
 
 
 def gen_df():
-    return pd.read_csv("csv/2023_players.csv")
+    df = pd.read_csv("csv/players.csv")
+    return df
+
+
+def gen_cols_json(df, cols):
+    return df[cols].drop_duplicates().dropna().to_dict(orient="records")

@@ -44,7 +44,7 @@ export const getDropDownFormOpts =
   async (): Promise<FormDropDownOptionValues> => {
     const res = await axios.get(formMappingsUrl);
     res.data.players = res.data.players.map((v: any) => ({
-      label: `${v.Player} (${v.Team})`,
+      label: `${v.Player} (${v.Team} - ${v.Position})`,
       value: v.PlayerId,
     }));
     res.data.conferences = res.data.conferences.map((v: any) => ({

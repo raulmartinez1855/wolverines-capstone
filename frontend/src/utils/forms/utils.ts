@@ -59,7 +59,6 @@ export const getDropDownFormOpts =
       label: v.Season,
       value: v.Season,
     }));
-    res.data.seasons.push({ label: 2024, value: 2024 });
     res.data.teams = res.data.teams.map((v: any) => ({
       label: v.Team,
       value: v.TeamId,

@@ -4,7 +4,7 @@ import pandas as pd
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 
-from helpers.dataframe import gen_df, gen_cols_json
+from helpers.dataframe import gen_df, gen_cols_json, positions
 from helpers.classifiers import get_player_proba
 
 app = Flask(__name__)
@@ -38,8 +38,10 @@ def gen_predictions_player():
 @app.route("/predict/manual", methods=["POST"])
 @cross_origin()
 def gen_predictions_manual():
+
     model_input = pd.DataFrame(data=request.json, columns=df.columns, index=[0])
-    print(model_input)
+    model_input.PlayerId = 0
+    model_input.Position = positions[model_input.PositionId.values[0]]
     res = [get_player_proba(model_input)]
 
     return jsonify(res)

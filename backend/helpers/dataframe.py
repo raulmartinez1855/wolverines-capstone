@@ -8,3 +8,18 @@ def gen_df():
 
 def gen_cols_json(df, cols):
     return df[cols].drop_duplicates().dropna().to_dict(orient="records")
+
+
+positions = [
+    "QB",
+    "RB",
+    "WR",
+    "DL",
+    "DB",
+    "DE",
+    "TE",
+    "S ",
+    "LB",
+    "CB",
+    "DT",
+]

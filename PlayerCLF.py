@@ -103,7 +103,7 @@ def get_player_proba(data):
         data['Yr'] = data['Yr'].astype('str')
         data['Stars'] = data['Stars'].astype('str')
 
-        column_transform = joblib.load("column_transform")
+        column_transform = joblib.load("column_transform_defense.joblib")
         data = column_transform.transform(data).toarray()
         clf = joblib.load("DefensiveCLF.joblib")
 
@@ -150,7 +150,7 @@ def get_player_proba(data):
         data['Yr'] = data['Yr'].astype('str')
         data['Stars'] = data['Stars'].astype('str')
 
-        column_transform = joblib.load("column_transform")
+        column_transform = joblib.load("column_transform_qb.joblib")
         data = column_transform.transform(data).toarray()
         clf = joblib.load("qb_classifier.joblib")
 
@@ -190,7 +190,7 @@ def get_player_proba(data):
         data['Yr'] = data['Yr'].astype('str')
         data['Stars'] = data['Stars'].astype('str')
 
-        column_transform = joblib.load("column_transform")
+        column_transform = joblib.load("column_transform_rb.joblib")
         data = column_transform.transform(data).toarray()
         clf = joblib.load("rb_classifier.joblib")
 
@@ -233,7 +233,7 @@ def get_player_proba(data):
         data['Yr'] = data['Yr'].astype('str')
         data['Stars'] = data['Stars'].astype('str')
 
-        column_transform = joblib.load("column_transform")
+        column_transform = joblib.load("column_transform_wr_te.joblib")
         data = column_transform.transform(data).toarray()
         clf = joblib.load("wr_te_classifier.joblib")
 

@@ -194,7 +194,7 @@ def get_player_proba(data):
         data = data.toarray()
         proba = round(clf.predict_proba(data)[0][1] * 100, 2)
 
-        return gen_prediction_json("Gradient Boosting Classifier", proba)
+        return gen_prediction_json("Logistic Regression", proba)
 
     # If QB
     if data["Position"].iloc[0] == "QB":
@@ -323,7 +323,7 @@ def get_player_proba(data):
 
         proba = round(clf.predict_proba(data)[0][1] * 100, 2)
 
-        return gen_prediction_json("Gradient Boosting Classifier", proba)
+        return gen_prediction_json("Random Forest Classifier", proba)
 
     # If RB
     if data["Position"].iloc[0] == "RB":

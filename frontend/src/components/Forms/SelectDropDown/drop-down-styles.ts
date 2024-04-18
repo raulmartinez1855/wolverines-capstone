@@ -15,18 +15,17 @@ export const customStyles = (
 ): StylesConfig<DropDownOption, false> => ({
   control: (provided: any, props) => ({
     // ...provided,
+    textTransform: "uppercase",
     border: props.menuIsOpen
       ? "1px solid rgba(255, 255, 255, 0.25)"
       : withError
       ? "1px solid #F04747"
-      : props.hasValue
-      ? "1px solid white"
       : "1px solid rgba(255, 255, 255, 0.25)",
     outline: "none",
     boxShadow: "none",
     padding: "1.6rem",
     margin: "0",
-    fontSize: "1.4rem",
+    fontSize: "1rem",
     lineHeight: "1.6rem",
     height: "4.8rem",
     borderTopRightRadius: "3.2rem",

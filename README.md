@@ -1,5 +1,13 @@
 # Wolverines Capstone Project
 
+## Staging URL
+
+https://staging-wolverines-capstone.vercel.app/
+
+## Production URL
+
+https://wolverines-capstone.vercel.app/
+
 ## Description
 
 This is the capstone project for the Wolverines team. In this repository are the following directories:
@@ -11,7 +19,6 @@ This is the capstone project for the Wolverines team. In this repository are the
       - `NEXT_PUBLIC_BACKEND_SERVER='http://127.0.0.1:5000/'`
     - `yarn install`
     - `yarn dev`
-  - The frontend server should be running on http://localhost:3000
 - backend: The backend web server of the project
   - Running the backend server:
     - `cd backend`

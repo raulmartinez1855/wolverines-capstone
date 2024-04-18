@@ -6,7 +6,7 @@ import {
   getDropDownFormOpts,
 } from "@/utils/forms/utils";
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const options: FormDropDownOptionValues = await getDropDownFormOpts();
   return { props: { options: options.players } };
 };

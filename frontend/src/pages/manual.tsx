@@ -5,7 +5,7 @@ import {
   getDropDownFormOpts,
 } from "@/utils/forms/utils";
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const { conferences, positions, seasons, teams } =
     await getDropDownFormOpts();
 

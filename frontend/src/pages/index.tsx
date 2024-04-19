@@ -1,5 +1,6 @@
 import { Layout } from "@/components/Layout/Layout";
 import arch from "/public/arch.jpg";
+import avatar from "/public/avatar.png";
 import Image from "next/image";
 import { Fragment, ReactNode } from "react";
 
@@ -330,6 +331,32 @@ export default function HomePage() {
               ))}
           </Fragment>
         ))}
+      </div>
+      <div className="">
+        <WhitePaperHeader>Team Wolverines</WhitePaperHeader>
+        <div className="flex justify-between">
+          <div className="max-w-xl text-center">
+            <Image src={avatar} alt="team member image" />
+            <WhitePaperHeader>Jeffrey Jones</WhitePaperHeader>
+            <WhitePaperText>Data Cleaning Commander</WhitePaperText>
+            <WhitePaperText>Column Transformation Titan</WhitePaperText>
+            <WhitePaperText>Logistic Regression Raider</WhitePaperText>
+          </div>
+          <div className="max-w-xl text-center">
+            <Image src={avatar} alt="team member image" />
+            <WhitePaperHeader>Yash Dave</WhitePaperHeader>
+            <WhitePaperText>Data Manipulation Maestro</WhitePaperText>
+            <WhitePaperText>CSV Chef</WhitePaperText>
+            <WhitePaperText>Gradient Boosting Boss</WhitePaperText>
+          </div>
+          <div className="max-w-xl text-center">
+            <Image src={avatar} alt="team member image" />
+            <WhitePaperHeader>Raul Martinez</WhitePaperHeader>
+            <WhitePaperText>Web App Wrangler</WhitePaperText>
+            <WhitePaperText>Software Sage</WhitePaperText>
+            <WhitePaperText>Git Pipeline Plumber</WhitePaperText>
+          </div>
+        </div>
       </div>
     </Layout>
   );

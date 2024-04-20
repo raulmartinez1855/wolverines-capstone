@@ -33,7 +33,7 @@ export default function FormStateWrapper({
           {serverResponse.length ? (
             <>
               <span className="text-5xl block mb-[6.4rem]">
-                Transer Probability:{" "}
+                Transfer Probability:{" "}
               </span>
               {serverResponse.map((v) => (
                 <div key={v.model} className="w-full">

@@ -29,3 +29,11 @@ This is the capstone project for the Wolverines team. In this repository are the
 - Data: Original Datasets used in the project
 - Initial Data Exploration: Initial data exploration done on the datasets
 - classifiers: The classifiers used in the project
+
+## Data Access Statement
+
+- Data for the CSV files in this project were acquired from the following sources:
+  - https://collegefootballdata.com
+  - https://borderingonwisdom.wordpress.com/college-football-coach-database/
+
+The data is used for educational purposes only and is not intended for commercial use. The CSV files are able to be downloaded directly from the sources listed above.

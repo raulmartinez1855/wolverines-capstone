@@ -15,9 +15,6 @@ export function NavBar() {
         <Link className={linkStyle} href={"/manual"}>
           Manual Model
         </Link>
-        <Link className={linkStyle} href={"/team"}>
-          Team
-        </Link>
       </div>
     </nav>
   );

@@ -529,7 +529,7 @@ def get_player_proba(data):
 
         proba = round(clf.predict_proba(data)[0][1] * 100, 2)
 
-        return gen_prediction_json("Gradient Boosting Classifier", proba)
+        return gen_prediction_json("Logistic Regression", proba)
 
     else:
         return "Special teams and O-line not included"

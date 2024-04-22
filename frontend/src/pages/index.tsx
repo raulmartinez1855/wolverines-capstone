@@ -368,15 +368,9 @@ const sections = [
       <>
         <a href="https://flask.palletsprojects.com/en/3.0.x/">Flask</a> was
         chosen as the application framework to host the backend web application
-        logic. Flask was chosen for several reasons, the most important being
-        that Flask is written in python and python is required to run the
-        classification models. In addition, Flask is able to serialize and
-        deserialize JSON requests and responses which is a very common form of
-        communication between servers and would be required to communicate with
-        the frontend server. To host the code,{" "}
-        <a href="https://heroku.com/">Heroku</a> was chosen as the hosting
-        platform due to its ease of use for deploying web applications, and
-        ability to auto-deploy changes pushed to GitHub branches.
+        logic. To host the code, <a href="https://heroku.com/">Heroku</a> was
+        chosen as the hosting platform due to its ability to auto-deploy changes
+        pushed to GitHub branches.
       </>,
       <>
         Trained models were saved as <span className="italic">joblib</span>{" "}
@@ -392,10 +386,10 @@ const sections = [
       <>
         <a href="https://nextjs.org/">NextJs</a> was chosen as the application
         framework to host the frontend web application logic. This was done due
-        to the team’s prior experience with the framework. In addition, to host
-        the code <a href="https://vercel.com/">Vercel</a> was chosen as the
-        hosting platform due to its extensive integration with NextJs and
-        ability to auto-deploy changes pushed to GitHub branches.
+        to the team’s prior experience with the framework.To host the code{" "}
+        <a href="https://vercel.com/">Vercel</a> was chosen as the hosting
+        platform due to its integration with NextJs and ability to auto-deploy
+        changes pushed to GitHub branches.
       </>,
     ],
   },
@@ -429,9 +423,8 @@ const sections = [
       <>
         The manual submission form allows a user to manually input all the data
         which the model will use to generate a prediction. The request/response
-        process works just as the player form does except that the input to
-        model is sent directly in the HTTP POST request, there is no matching
-        required with an existing player.
+        process works just as the player form does except that there is no
+        matching required with an existing player.
       </>,
     ],
   },
@@ -441,11 +434,8 @@ const sections = [
       <>
         To collaborate, the team used a public{" "}
         <a href="https://github.com/raulmartinez1855/wolverines-capstone">
-          GitHub repository
+          GitHub repository.
         </a>
-        . This allowed the team to push changes remotely, as well as provided
-        the team with webhook functionality to automatically deploy changes to
-        the chosen hosting platforms.
       </>,
     ],
   },
@@ -461,15 +451,6 @@ const sections = [
           iterative software development lifecycle
         </a>
         , in which changes large and small can be delivered incrementally.
-      </>,
-      <>
-        In addition, the use of the Vercel and Heroku as hosting platforms
-        allowed for build pipelines to be created between the GitHub repository
-        and the hosting platforms. Specifically, whenever changes were pushed to
-        the production branch or a staging branch in the repository, the
-        repository would automatically be deployed to both the frontend and
-        backend hosting platforms. With this approach, new changes would reflect
-        usually within 120 seconds of pushing changes to the repository.
       </>,
       <>
         <Image src={arch} alt="architecture overview image" />

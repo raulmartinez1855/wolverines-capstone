@@ -366,11 +366,19 @@ const sections = [
     sectionSubHeader: "Backend",
     textBlocks: [
       <>
-        <a href="https://flask.palletsprojects.com/en/3.0.x/">Flask</a> was
-        chosen as the application framework to host the backend web application
-        logic. To host the code, <a href="https://heroku.com/">Heroku</a> was
-        chosen as the hosting platform due to its ability to auto-deploy changes
-        pushed to GitHub branches.
+        <a
+          className="font-bold"
+          href="https://flask.palletsprojects.com/en/3.0.x/"
+        >
+          Flask
+        </a>{" "}
+        was chosen as the application framework to host the backend web
+        application logic. To host the code,{" "}
+        <a className="font-bold" href="https://heroku.com/">
+          Heroku
+        </a>{" "}
+        was chosen as the hosting platform due to its ability to auto-deploy
+        changes pushed to GitHub branches.
       </>,
       <>
         Trained models were saved as <span className="italic">joblib</span>{" "}
@@ -384,12 +392,17 @@ const sections = [
     sectionSubHeader: "Frontend",
     textBlocks: [
       <>
-        <a href="https://nextjs.org/">NextJs</a> was chosen as the application
-        framework to host the frontend web application logic. This was done due
-        to the team’s prior experience with the framework.To host the code{" "}
-        <a href="https://vercel.com/">Vercel</a> was chosen as the hosting
-        platform due to its integration with NextJs and ability to auto-deploy
-        changes pushed to GitHub branches.
+        <a className="font-bold" href="https://nextjs.org/">
+          NextJs
+        </a>{" "}
+        was chosen as the application framework to host the frontend web
+        application logic. This was done due to the team’s prior experience with
+        the framework. To host the code{" "}
+        <a className="font-bold" href="https://vercel.com/">
+          Vercel
+        </a>{" "}
+        was chosen as the hosting platform due to its integration with NextJs
+        and ability to auto-deploy changes pushed to GitHub branches.
       </>,
     ],
   },
@@ -410,15 +423,12 @@ const sections = [
         receives the request, it extracts the player id from the request. The
         server then matches the player id to a row in a pandas DataFrame which
         only contains information from the 2023 season. After a series of data
-        manipulation steps, the player information routed to one of the models
-        based on the position of the player. In the code blocks specific to
-        position, there is additional data manipulation specific for the
+        manipulation steps, the player information is routed to one of the
+        models based on the position of the player. In the code blocks specific
+        to position, there is additional data manipulation specific for the
         position specific classifier. The player information is passed as input
         to a model to generate a prediction using the{" "}
-        <span className="italic">predict_proba</span> method. The backend server
-        responds to the frontend with a list of dictionaries, contained in each
-        dictionary is the name of the model and the probability of the
-        prediction.
+        <span className="italic">predict_proba</span> method.
       </>,
       <>
         The manual submission form allows a user to manually input all the data
@@ -433,7 +443,10 @@ const sections = [
     textBlocks: [
       <>
         To collaborate, the team used a public{" "}
-        <a href="https://github.com/raulmartinez1855/wolverines-capstone">
+        <a
+          className="font-bold"
+          href="https://github.com/raulmartinez1855/wolverines-capstone"
+        >
           GitHub repository.
         </a>
       </>,
@@ -447,7 +460,10 @@ const sections = [
         environment. The staging environment allows the team to test changes and
         fix bugs, before releasing the changes to the general public in
         production. Utilizing this architecture allowed for the team to use an
-        <a href="https://www.craiglarman.com/wiki/downloads/misc/history-of-iterative-larman-and-basili-ieee-computer.pdf">
+        <a
+          className="font-bold"
+          href="https://www.craiglarman.com/wiki/downloads/misc/history-of-iterative-larman-and-basili-ieee-computer.pdf"
+        >
           iterative software development lifecycle
         </a>
         , in which changes large and small can be delivered incrementally.
